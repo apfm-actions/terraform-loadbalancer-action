@@ -1,8 +1,5 @@
-variable "name" {}
+
 variable "port" {}
-variable "protocol" {
-  default = "HTTPS"
-}
 variable "certificate" {
   type = "map"
 }
@@ -68,7 +65,7 @@ variable health_check_success_codes {
 locals {
   protocol           = "${upper(var.protocol)}"
   tg_protocol        = "${var.tg_protocol == "" ? "${var.protocol}" : "${var.tg_protocol}"}"
-  enable_alb         = "${local.protocol != "TCP" && var.enable ? 1 : 0}"
-  enable_nlb_private = "${local.protocol == "TCP" && var.enable && ! var.public ? 1 : 0}"
-  enable_nlb_public  = "${local.protocol == "TCP" && var.enable &&   var.public ? 1 : 0}"
+  enable_alb         = "${local.protocol != "TCP" ? 1 : 0}"
+  enable_nlb_private = "${local.protocol == "TCP" && ! var.public ? 1 : 0}"
+  enable_nlb_public  = "${local.protocol == "TCP" && var.public ? 1 : 0}"
 }

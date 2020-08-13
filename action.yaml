@@ -1,10 +1,81 @@
 name: Loadbalancer Deploy
 description: Deploy an AWS Loadbalancer using Terraform
 inputs:
+  name:
+    description: 'Loadbalancer Name'
+    required: true
   protocol:
     description: 'Loadbalancer Protocol'
     default: 'HTTPS'
     required: true
+  target_type:
+    description: 'The target type for the target group; use instance for EC2 and ip for ECS.'
+    default: 'instance'
+    required: true
+  http_listener_port:
+    description: 'HTTPS Listener port'
+    default: '80'
+    required: true
+  https_listener_port:
+    description: 'HTTPS Listener port'
+    default: '443'
+    required: true
+  enable_sticky_sessions:
+    description: ''
+    default: 'false'
+    required: true
+  sticky_session_duration:
+    description: 'Time in seconds to maintain the cookie validity. Default 86400 = 1 day. Min 1 second, max 7 days (604800).'
+    default: '86400'
+    required: true
+  tg_protocol:
+    description: ''
+    default: ''
+    required: true
+  tg_dereg_delay:
+    description: ''
+    default: '300'
+    required: true
+  health_check_path:
+    description: ''
+    required: true
+    default: '/' 
+  health_check_port:
+    description: ''
+    required: true
+    default: '80' 
+  health_check_protocol:
+    description: ''
+    required: true
+    default: 'HTTP'  
+  health_check_unhealthy_threshold:
+    description: ''
+    required: true
+    default: '2'
+  health_check_healthy_threshold:
+    description: ''
+    required: true
+    default: '5'
+  health_check_timeout:
+    description: ''
+    required: true
+    default: '5'
+  health_check_interval:
+    description: ''    
+    required: true
+    default: '30'
+  health_check_grace_period:
+    description: 'Configurable attribute of the ECS service, not the target group'
+    required: true
+    default: '30'
+  health_check_success_codes:
+    description: 'Health check sucess default code'
+    required: true
+    default: '200'
+  ssl_policy:
+    description: 'SSL Policy name by default'
+    required: true
+    default: 'ELBSecurityPolicy-2016-08'
 
 outputs:
   arn:
